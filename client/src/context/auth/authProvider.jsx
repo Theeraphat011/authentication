@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
    const navigate = useNavigate();
 
    useEffect(() => {
-      const token = Cookies.get("refreshToken");
+      const token = Cookies.get("_vercel_jwt");
       setTokenCheck(token);
 
       if (!token) {
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
             console.error("Failed to refresh token:", err);
             setTokenCheck(null);
             setUser(null);
-            Cookies.remove("refreshToken", { path: "/" });
+            Cookies.remove("_vercel_jwt", { path: "/" });
          } finally {
             setLoading(false);
          }
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
             ...(res.data.user || {}),
          });
 
-         Cookies.set("refreshToken", res.data.refreshToken, { path: "/" });
+         Cookies.set("_vercel_jwt", res.data.refreshToken, { path: "/" });
          setTokenCheck(res.data.refreshToken);
 
          return res.data;
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }) => {
    const logout = () => {
       setUser(null);
       setTokenCheck(null);
-      Cookies.remove("refreshToken", { path: "/" });
+      Cookies.remove("_vercel_jwt", { path: "/" });
    };
 
    const isAuthenticated = () => {
