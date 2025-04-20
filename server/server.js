@@ -6,13 +6,17 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes");
 const app = express();
 
-app.use(
-   cors({
-      origin: "https://auth-jw5ow2j5g-theeraphat011s-projects.vercel.app",  
-      methods: ["GET", "POST"],
-      credentials: true, // อนุญาตให้ส่งคุกกี้หรือข้อมูลรับรอง
-   })
-);
+const allowedOrigins = ['https://auth-jw5ow2j5g-theeraphat011s-projects.vercel.app'];
+
+app.use(cors({
+    origin: function(origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
 app.use(express.json());
 app.use(cookieParser());
 
