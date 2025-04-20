@@ -6,7 +6,12 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes");
 const app = express();
 
-app.use(cors());
+app.use(
+   cors({
+      origin: "http://localhost:5173", 
+      credentials: true, // อนุญาตให้ส่งคุกกี้หรือข้อมูลรับรอง
+   })
+);
 app.use(express.json());
 app.use(cookieParser());
 
