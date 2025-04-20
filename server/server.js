@@ -19,5 +19,5 @@ app.use("/auth", authRoutes);
 
 connectDB();
 app.listen(process.env.PORT, () => {
-   console.log("http://localhost:3000");
+   console.log("Server is running");
 });
