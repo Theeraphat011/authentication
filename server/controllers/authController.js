@@ -54,19 +54,25 @@ exports.login = async (req, res) => {
       user.refreshToken = refreshToken;
       await user.save();
 
-      // console.log(accessToken, refreshToken)
-
       res.cookie("refreshToken", refreshToken, {
          sameSite: "Lax",
          secure: false,
          path: "/",
-         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 วัน
+         maxAge: 7 * 24 * 60 * 60 * 1000, 
       });
+
+      const userInfo = {
+         _id: user._id,
+         username: user.username,
+         email: user.email,
+         createdAt: user.createdAt
+      };
 
       res.status(200).json({
          message: "Login Successfully",
          accessToken,
          refreshToken,
+         user: userInfo
       });
    } catch (err) {
       console.log(err);
@@ -75,8 +81,7 @@ exports.login = async (req, res) => {
 };
 
 exports.refreshToken = async (req, res) => {
-   // console.log("Cookies:", req.cookies);
-   const token = req.cookies.refreshToken;
+   const token = req.cookies.refreshToken;  
    if (!token) {
       console.log("No token provided");
       return res.status(401).json({ message: "No token provided" });
@@ -84,10 +89,7 @@ exports.refreshToken = async (req, res) => {
 
    try {
       const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-      // console.log("Decoded Token:", decoded);
-
       const user = await User.findById(decoded.id);
-      // console.log("User:", user);
 
       if (!user) {
          console.log("Invalid refresh token");
@@ -95,7 +97,19 @@ exports.refreshToken = async (req, res) => {
       }
 
       const accessToken = generateAccessToken(user);
-      res.status(200).json({ accessToken });
+      
+      // ส่งข้อมูลผู้ใช้กลับไป
+      const userInfo = {
+         _id: user._id,
+         username: user.username,
+         email: user.email,
+         createdAt: user.createdAt
+      };
+      
+      res.status(200).json({ 
+         accessToken,
+         user: userInfo
+      });
    } catch (err) {
       console.log("Error verifying token:", err);
       res.status(403).json({ message: "Token expired or invalid" });
