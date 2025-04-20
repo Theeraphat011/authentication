@@ -8,7 +8,7 @@ const app = express();
 
 app.use(
    cors({
-      origin: "https://auth-app-beryl.vercel.app",  // ระบุโดเมนของ client ที่จะอนุญาต
+      origin: "https://auth-jw5ow2j5g-theeraphat011s-projects.vercel.app",  
       methods: ["GET", "POST"],
       credentials: true, // อนุญาตให้ส่งคุกกี้หรือข้อมูลรับรอง
    })
