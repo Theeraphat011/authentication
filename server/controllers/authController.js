@@ -1,5 +1,5 @@
 const User = require("../models/authSchema");
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcryptjs');
 const { validationResult } = require("express-validator");
 const {
    generateAccessToken,
@@ -98,7 +98,6 @@ exports.refreshToken = async (req, res) => {
 
       const accessToken = generateAccessToken(user);
       
-      // ส่งข้อมูลผู้ใช้กลับไป
       const userInfo = {
          _id: user._id,
          username: user.username,
