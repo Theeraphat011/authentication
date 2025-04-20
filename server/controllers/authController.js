@@ -10,7 +10,9 @@ const jwt = require("jsonwebtoken");
 exports.register = async (req, res) => {
    const errors = validationResult(req);
    if (!errors.isEmpty())
-      return res.status(400).json({ errors: errors.array() });
+      return res
+         .status(400)
+         .json({ message: "Validation failed", errors: errors.array() });
 
    try {
       const { username, email, password } = req.body;
@@ -48,11 +50,11 @@ exports.login = async (req, res) => {
 
       const accessToken = generateAccessToken(user);
       const refreshToken = generateRefreshToken(user);
-      
+
       user.refreshToken = refreshToken;
       await user.save();
 
-      console.log(accessToken, refreshToken)
+      // console.log(accessToken, refreshToken)
 
       res.cookie("refreshToken", refreshToken, {
          sameSite: "Lax",

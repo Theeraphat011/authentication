@@ -8,4 +8,4 @@ const registerValidation = [
       .withMessage("Password must be at least 8 charactors"),
 ];
 
-module.exports = {registerValidation}
+module.exports = { registerValidation };
