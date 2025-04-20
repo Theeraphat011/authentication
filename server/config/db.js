@@ -10,6 +10,7 @@ const connectDB = () => {
       console.log("Success connceted.");
    } catch (err) {
       console.log(err);
+      process.exit(1);
    }
 };
 
