@@ -8,8 +8,8 @@ const app = express();
 
 app.use(
    cors({
-      origin: "http://localhost:5173", 
-      credentials: true, // อนุญาตให้ส่งคุกกี้หรือข้อมูลรับรอง
+      origin: ["http://localhost:5173", "https://auth-app-beryl.vercel.app/"],
+      credentials: true,
    })
 );
 app.use(express.json());

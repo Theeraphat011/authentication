@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../api/api";
 
@@ -9,7 +8,6 @@ export const AuthProvider = ({ children }) => {
    const [user, setUser] = useState(null);
    const [tokenCheck, setTokenCheck] = useState(null);
    const [loading, setLoading] = useState(true);
-   const navigate = useNavigate();
 
    useEffect(() => {
       const token = Cookies.get("refreshToken");
@@ -24,7 +22,9 @@ export const AuthProvider = ({ children }) => {
 
       const fetchAccessToken = async () => {
          try {
-            const res = await api.post("/auth/refresh", { token: token });
+            const res = await api.post("/auth/refresh", {
+               refreshToken: token,
+            });
 
             setUser({
                accessToken: res.data.accessToken,
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
       };
 
       fetchAccessToken();
-   }, [navigate]);
+   }, []);
 
    const registerUser = async (userData) => {
       console.log(userData);
