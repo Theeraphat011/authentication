@@ -8,7 +8,11 @@ const app = express();
 
 app.use(
    cors({
-      origin: ["http://localhost:5173", "https://auth-app-beryl.vercel.app/"],
+      origin: [
+         "http://localhost:5173",
+         "https://auth-7oa3xeblg-theeraphat011s-projects.vercel.app",
+         "https://auth-app-beryl.vercel.app/",
+      ],
       credentials: true,
    })
 );
